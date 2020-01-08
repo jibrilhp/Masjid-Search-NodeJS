@@ -5,7 +5,7 @@ const request = require('request');
 module.exports = (app) => {
 
   app.get(`/api/product`, async (req, res) => {
-    
+
 
     let url = "https://jibs.my.id/api/masjid/getLastMasjid";
 
@@ -15,24 +15,34 @@ module.exports = (app) => {
 
     request(url, options, (error, res, body) => {
       if (error) {
-        return console.log(error)
+        return res.status(200).send({
+          error: true,
+          error
+        })
       };
 
       if (!error && res.statusCode == 200) {
-        return body;
+        return res.status(200).send({
+          error: false,
+          body
+        })
       };
-    });
 
+
+
+    });
   });
- 
+
+
+
   app.post(`/api/product`, async (req, res) => {
     let product = await Product.create(req.body);
     console.log(req.body);
     return res.status(201).send({
       error: false,
       product
-    })
-  })
+    });
+  });
 
   app.put(`/api/product/:id`, async (req, res) => {
     const { id } = req.params;
@@ -42,7 +52,7 @@ module.exports = (app) => {
     return res.status(202).send({
       error: false,
       product
-    })
+    });
 
   });
 
@@ -54,8 +64,8 @@ module.exports = (app) => {
     return res.status(202).send({
       error: false,
       product
-    })
+    });
 
-  })
+  });
 
 }
