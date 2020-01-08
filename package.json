@@ -27,6 +27,7 @@
     "lodash": "4.17.12",
     "mongodb": "^3.4.1",
     "mongoose": "^5.8.3",
+    "request": "^2.88.0",
     "serialize-javascript": "^2.1.2",
     "set-value": "2.0.1"
   },

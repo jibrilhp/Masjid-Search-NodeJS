@@ -1,13 +1,30 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('products');
+const request = require('request');
 
 module.exports = (app) => {
 
   app.get(`/api/product`, async (req, res) => {
-    let products = await Product.find();
-    return res.status(200).send(products);
-  });
+    
 
+    let url = "https://jibs.my.id/api/masjid/getLastMasjid";
+
+    let options = { json: true };
+
+
+
+    request(url, options, (error, res, body) => {
+      if (error) {
+        return console.log(error)
+      };
+
+      if (!error && res.statusCode == 200) {
+        return body;
+      };
+    });
+
+  });
+ 
   app.post(`/api/product`, async (req, res) => {
     let product = await Product.create(req.body);
     console.log(req.body);
@@ -18,7 +35,7 @@ module.exports = (app) => {
   })
 
   app.put(`/api/product/:id`, async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
 
     let product = await Product.findByIdAndUpdate(id, req.body);
 
@@ -30,7 +47,7 @@ module.exports = (app) => {
   });
 
   app.delete(`/api/product/:id`, async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
 
     let product = await Product.findByIdAndDelete(id);
 
@@ -40,5 +57,5 @@ module.exports = (app) => {
     })
 
   })
-  
+
 }
